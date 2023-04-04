@@ -10,7 +10,9 @@
   "scripts": {
     "build": "tsc",
     "prestart": "yarn build",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "predeploy": "yarn build",
+    "deploy": "node dist/discord/deploy.js"
   },
   "dependencies": {
     "discord.js": "^14.9.0",
