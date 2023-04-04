@@ -1,4 +1,4 @@
-export default async function dotenv() {
+export default async function dotenv(): Promise<void> {
     try {
         const { config } = await import("dotenv");
         config();
