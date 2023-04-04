@@ -1,2 +1,23 @@
-# discord-haikubot
-I detect haikus
+# discord-haikusbot
+
+> I detect haikus
+>
+> Five-seven-five syllable
+>
+> Patterns are so cool
+> 
+> As many of you have pointed out, what I make are actually senryus, not haikus.
+> 
+> -haikusbot
+
+A [Discord](https://discord.com/) bot based on the [Reddit bot of the same name](https://www.reddit.com/r/haikusbot/comments/ibsjyq/about_me/).
+
+Original bot created by [XxBobTheZealotxX](https://www.reddit.com/user/XxBobTheZealotxX/)
+
+## Invite to Your Server
+
+### [Invite haikusbot]()
+
+haikusbot can be invited to your server with the above link.
+
+This bot can be configured with slash commands. If you can't see them, you may need to reinvite buttsbot with the above invite link.
