@@ -1,0 +1,39 @@
+import {
+    AutocompleteInteraction,
+    Awaitable,
+    ChatInputCommandInteraction,
+    Collection,
+    JSONEncodable,
+    RESTPostAPIChatInputApplicationCommandsJSONBody
+} from "discord.js";
+import { readdirSync } from "fs";
+import { basename } from "path";
+import { fileURLToPath } from "url";
+
+const indexBasename = basename(import.meta.url);
+const commands = new Collection<string, SlashCommand>(
+    await Promise.all(
+        readdirSync(fileURLToPath(new URL(".", import.meta.url)))
+            .filter(file =>
+                (file.indexOf(".") !== 0) &&
+                (file !== indexBasename) &&
+                (file.slice(-3) === ".js")
+            )
+            .map(async (file): Promise<[string, SlashCommand]> => {
+                const url = new URL(file, import.meta.url);
+                const cmd: SlashCommand = await import(url.toString());
+                return [cmd.data.name, cmd];
+            })
+    )
+);
+export default commands;
+
+interface SlashCommandData extends JSONEncodable<RESTPostAPIChatInputApplicationCommandsJSONBody> {
+    name: string;
+}
+
+interface SlashCommand {
+    data: SlashCommandData;
+    autocomplete?(interaction: AutocompleteInteraction): Awaitable<void>;
+    callback(interaction: ChatInputCommandInteraction): Awaitable<void>;
+}
