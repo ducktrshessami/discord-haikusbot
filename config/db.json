@@ -1,14 +1,14 @@
 {
   "development": {
     "dialect": "sqlite",
-    "storage": "./sqlite/haikubot_dev.sqlite"
+    "storage": "./sqlite/haikusbot_dev.sqlite"
   },
   "test": {
     "dialect": "sqlite",
-    "storage": "./sqlite/haikubot_test.sqlite"
+    "storage": "./sqlite/haikusbot_test.sqlite"
   },
   "production": {
     "dialect": "sqlite",
-    "storage": "./sqlite/haikubot_prod.sqlite"
+    "storage": "./sqlite/haikusbot_prod.sqlite"
   }
 }
