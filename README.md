@@ -20,4 +20,4 @@ Original bot created by [XxBobTheZealotxX](https://www.reddit.com/user/XxBobTheZ
 
 haikusbot can be invited to your server with the above link.
 
-This bot can be configured with slash commands. If you can't see them, you may need to reinvite buttsbot with the above invite link.
+This bot can be configured with slash commands. If you can't see them, you may need to reinvite haikusbot with the above invite link.
