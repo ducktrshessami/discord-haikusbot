@@ -10,7 +10,11 @@ const client = new Client({
     intents: GatewayIntentBits.Guilds,
     presence: getPresence()
 })
-    .on("ready", client => {
+    .on("debug", console.debug)
+    .on("warn", console.warn)
+    .on("error", console.error)
+    .once("ready", client => {
+        client.off("debug", console.debug);
         console.log(`[discord] Logged in as ${client.user.tag}`);
         setInterval(() => client.user.setPresence(getPresence()), DISCORD_PRESENCE_INTERVAL);
     });
