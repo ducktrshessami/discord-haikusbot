@@ -55,6 +55,18 @@ const client = new Client({
         catch (err) {
             console.error(err);
         }
+    })
+    .on(Events.GuildCreate, async guild => {
+        try {
+            if (client.isReady()) {
+                await Guild.findOrCreate({
+                    where: { id: guild.id }
+                });
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
     });
 
 function getPresence(): PresenceData {
