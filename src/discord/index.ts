@@ -16,6 +16,7 @@ import {
     DISCORD_THREAD_LIFETIME
 } from "../constants.js";
 import { Guild } from "../models/index.js";
+import commands from "./commands/index.js";
 
 const client = new Client({
     intents: GatewayIntentBits.Guilds,
@@ -62,6 +63,20 @@ const client = new Client({
                 await Guild.findOrCreate({
                     where: { id: guild.id }
                 });
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+    })
+    .on(Events.InteractionCreate, async interaction => {
+        try {
+            if (interaction.isChatInputCommand()) {
+                const command = commands.get(interaction.commandName);
+                if (command) {
+                    console.log(`[discord] ${interaction.user.id} used ${interaction}`);
+                    await command.callback(interaction);
+                }
             }
         }
         catch (err) {
