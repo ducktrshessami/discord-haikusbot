@@ -14,6 +14,7 @@ import {
     DISCORD_SWEEPER_INTERVAL,
     DISCORD_THREAD_LIFETIME
 } from "../constants.js";
+import { Guild } from "../models/index.js";
 
 const client = new Client({
     intents: GatewayIntentBits.Guilds,
@@ -43,10 +44,16 @@ const client = new Client({
     .on("debug", console.debug)
     .on("warn", console.warn)
     .on("error", console.error)
-    .once("ready", client => {
-        client.off("debug", console.debug);
-        console.log(`[discord] Logged in as ${client.user.tag}`);
-        setInterval(() => client.user.setPresence(getPresence()), DISCORD_PRESENCE_INTERVAL);
+    .once("ready", async client => {
+        try {
+            client.off("debug", console.debug);
+            console.log(`[discord] Logged in as ${client.user.tag}`);
+            setInterval(() => client.user.setPresence(getPresence()), DISCORD_PRESENCE_INTERVAL);
+            await Guild.bulkCreate(client.guilds.cache.map(guild => ({ id: guild.id })), { ignoreDuplicates: true });
+        }
+        catch (err) {
+            console.error(err);
+        }
     });
 
 function getPresence(): PresenceData {
