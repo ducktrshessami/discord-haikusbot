@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import config from "../config.js";
 import { NODE_ENV } from "../constants.js";
 import Guild from "./guild.js";
+import IgnoreUser from "./IgnoreUser.js";
 
 const dbConfig = config.db[NODE_ENV];
 
@@ -13,5 +14,9 @@ if (dbConfig.use_env_variable) {
 }
 
 Guild.initialize(sequelize);
+IgnoreUser.initialize(sequelize);
 
-export { Guild };
+export {
+    Guild,
+    IgnoreUser
+};
