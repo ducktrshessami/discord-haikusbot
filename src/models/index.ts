@@ -18,6 +18,9 @@ Guild.initialize(sequelize);
 IgnoreUser.initialize(sequelize);
 IgnoreChannel.initialize(sequelize);
 
+Guild.hasMany(IgnoreChannel, { onDelete: "CASCADE" });
+IgnoreChannel.belongsTo(Guild);
+
 export {
     Guild,
     IgnoreUser,
