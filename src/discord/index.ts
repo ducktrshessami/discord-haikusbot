@@ -1,5 +1,6 @@
 import {
     Client,
+    Events,
     GatewayIntentBits,
     GuildMember,
     Options,
@@ -41,12 +42,12 @@ const client = new Client({
         }
     })
 })
-    .on("debug", console.debug)
-    .on("warn", console.warn)
-    .on("error", console.error)
-    .once("ready", async client => {
+    .on(Events.Debug, console.debug)
+    .on(Events.Warn, console.warn)
+    .on(Events.Error, console.error)
+    .once(Events.ClientReady, async client => {
         try {
-            client.off("debug", console.debug);
+            client.off(Events.Debug, console.debug);
             console.log(`[discord] Logged in as ${client.user.tag}`);
             setInterval(() => client.user.setPresence(getPresence()), DISCORD_PRESENCE_INTERVAL);
             await Guild.bulkCreate(client.guilds.cache.map(guild => ({ id: guild.id })), { ignoreDuplicates: true });
