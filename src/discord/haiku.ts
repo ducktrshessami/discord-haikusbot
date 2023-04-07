@@ -19,6 +19,9 @@ export function formatHaiku(content: string): string | null {
                 return null;
             }
             else if (lines.length < 3) {
+                if (chars[i++]) {
+                    line.append(chars[i], false);
+                }
                 lines.push(new HaikuLine(lines.length & 1 ? 7 : 5));
             }
         }
