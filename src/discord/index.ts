@@ -2,10 +2,15 @@ import {
     Client,
     Events,
     GatewayIntentBits,
+    GuildChannel,
     GuildMember,
+    Message,
     Options,
+    PermissionFlagsBits,
     PresenceData,
-    User
+    ThreadChannel,
+    User,
+    italic
 } from "discord.js";
 import activities from "./activities.js";
 import {
@@ -15,11 +20,18 @@ import {
     DISCORD_SWEEPER_INTERVAL,
     DISCORD_THREAD_LIFETIME
 } from "../constants.js";
-import { Guild } from "../models/index.js";
+import {
+    Guild,
+    IgnoreChannel,
+    IgnoreUser
+} from "../models/index.js";
 import commands from "./commands/index.js";
+import { formatHaiku, haikuable } from "./haiku.js";
 
 const client = new Client({
-    intents: GatewayIntentBits.Guilds,
+    intents: GatewayIntentBits.Guilds |
+        GatewayIntentBits.GuildMessages |
+        GatewayIntentBits.MessageContent,
     presence: getPresence(),
     sweepers: {
         threads: {
@@ -82,6 +94,29 @@ const client = new Client({
         catch (err) {
             console.error(err);
         }
+    })
+    .on(Events.MessageCreate, async message => {
+        try {
+            if (
+                !message.author.bot &&
+                message.cleanContent &&
+                message.inGuild() &&
+                message.channel.viewable &&
+                message.channel
+                    .permissionsFor(message.client.user)
+                    ?.has(PermissionFlagsBits.SendMessages) &&
+                haikuable(message.cleanContent) &&
+                !await ignore(message)
+            ) {
+                const haiku = formatHaiku(message.cleanContent);
+                if (haiku && haiku !== message.cleanContent) {
+                    await message.channel.send(`${italic(haiku)}\n- ${message.member?.displayName ?? message.author.username}`);
+                }
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
     });
 
 function getPresence(): PresenceData {
@@ -90,6 +125,22 @@ function getPresence(): PresenceData {
 
 function keepClientUser(userOrMember: User | GuildMember): boolean {
     return userOrMember.id === process.env.DISCORD_CLIENT_ID;
+}
+
+async function channelIgnored(channel: GuildChannel | ThreadChannel): Promise<boolean> {
+    let ignored = !!await IgnoreChannel.findByPk(channel.id);
+    if (channel.parent) {
+        ignored ||= await channelIgnored(channel.parent);
+    }
+    return ignored;
+}
+
+async function ignore(message: Message<true>): Promise<boolean> {
+    const [channel, user] = await Promise.all([
+        channelIgnored(message.channel),
+        IgnoreUser.findByPk(message.author.id)
+    ]);
+    return channel || !!user;
 }
 
 export async function login(): Promise<void> {
