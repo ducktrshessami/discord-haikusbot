@@ -86,7 +86,12 @@ const client = new Client({
         try {
             if (interaction.isChatInputCommand()) {
                 const command = commands.get(interaction.commandName);
-                if (command) {
+                if (
+                    command && (
+                        command.data.dm_permission !== false ||
+                        interaction.inCachedGuild()
+                    )
+                ) {
                     console.log(`[discord] ${interaction.user.id} used ${interaction}`);
                     await command.callback(interaction);
                 }
