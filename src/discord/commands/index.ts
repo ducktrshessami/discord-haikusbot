@@ -3,8 +3,7 @@ import {
     Awaitable,
     ChatInputCommandInteraction,
     Collection,
-    JSONEncodable,
-    RESTPostAPIChatInputApplicationCommandsJSONBody
+    SlashCommandBuilder
 } from "discord.js";
 import { readdirSync } from "fs";
 import { basename } from "path";
@@ -28,9 +27,13 @@ const commands = new Collection<string, SlashCommand>(
 );
 export default commands;
 
-interface SlashCommandData extends JSONEncodable<RESTPostAPIChatInputApplicationCommandsJSONBody> {
-    name: string;
-}
+type SlashCommandData = Pick<SlashCommandBuilder,
+    "name" |
+    "name_localizations" |
+    "dm_permission" |
+    "nsfw" |
+    "toJSON"
+>;
 
 interface SlashCommand {
     data: SlashCommandData;
