@@ -33,6 +33,7 @@ const client = new Client({
         GatewayIntentBits.GuildMessages |
         GatewayIntentBits.MessageContent,
     presence: getPresence(),
+    allowedMentions: { parse: [] },
     sweepers: {
         threads: {
             interval: DISCORD_SWEEPER_INTERVAL,
@@ -110,7 +111,7 @@ const client = new Client({
             ) {
                 const haiku = formatHaiku(message.cleanContent);
                 if (haiku && haiku !== message.cleanContent) {
-                    await message.channel.send(`${italic(haiku)}\n- ${message.member?.displayName ?? message.author.username}`);
+                    await message.channel.send(`${italic(haiku)}\n- ${message.author}`);
                 }
             }
         }
