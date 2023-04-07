@@ -5,6 +5,8 @@
 > Five-seven-five syllable
 >
 > Patterns are so cool
+>
+> I also fail sometimes
 > 
 > As many of you have pointed out, what I make are actually senryus, not haikus.
 > 
