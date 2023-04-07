@@ -367,9 +367,9 @@ fast-deep-equal@^3.1.3:
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
   integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
 
-fast-syllablize@ducktrshessami/fast-syllablize#v2.0.0:
-  version "2.0.0"
-  resolved "https://codeload.github.com/ducktrshessami/fast-syllablize/tar.gz/936deb6f95b030328707e638488565da738a6f0a"
+fast-syllablize@ducktrshessami/fast-syllablize#v2.1.0:
+  version "2.1.0"
+  resolved "https://codeload.github.com/ducktrshessami/fast-syllablize/tar.gz/5205c5d1bf6dc72b7a3d303f59d17f35f75608a3"
 
 file-type@^18.2.1:
   version "18.2.1"
