@@ -56,6 +56,7 @@ class HaikuLine {
     }
 
     toString(): string {
-        return this._line.trim();
+        const trimmed = this._line.trim();
+        return trimmed[0].toUpperCase() + trimmed.slice(1);
     }
 }
