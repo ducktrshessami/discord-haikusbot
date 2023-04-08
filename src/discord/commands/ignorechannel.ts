@@ -1,8 +1,10 @@
 import {
     ChannelType,
+    ChatInputCommandInteraction,
     PermissionFlagsBits,
     SlashCommandBuilder
 } from "discord.js";
+import { IgnoreChannel } from "../../models/index.js";
 
 export const data = new SlashCommandBuilder()
     .setName("ignorechannel")
@@ -24,3 +26,17 @@ export const data = new SlashCommandBuilder()
                 ChannelType.GuildForum
             )
     );
+
+export async function callback(interaction: ChatInputCommandInteraction<"cached">): Promise<void> {
+    await interaction.deferReply();
+    const channel = interaction.options.getChannel("channel");
+    const channelId = channel?.id ?? interaction.channelId;
+    const [_, created] = await IgnoreChannel.findOrCreate({
+        where: { id: channelId },
+        defaults: {
+            id: channelId,
+            GuildId: interaction.guildId
+        }
+    });
+    await interaction.editReply(created ? "" : ""); // TODO
+}
