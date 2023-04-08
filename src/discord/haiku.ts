@@ -26,14 +26,14 @@ export function formatHaiku(content: string): string | null {
             }
         }
     }
-    return lines.length === 3 ? lines.join("\n") : null;
+    return lines.length === 3 && lines.every(line => line.valid) ? lines.join("\n") : null;
 }
 
 class HaikuLine {
     private _line: string;
     private _syllables: number;
 
-    constructor(private max: number) {
+    constructor(private _max: number) {
         this._line = "";
         this._syllables = 0;
     }
@@ -42,8 +42,12 @@ class HaikuLine {
         return this._syllables;
     }
 
+    get valid(): boolean {
+        return this._syllables === this._max;
+    }
+
     get over(): boolean {
-        return this._syllables > this.max;
+        return this._syllables > this._max;
     }
 
     append(str: string, word: boolean): boolean {
@@ -52,7 +56,7 @@ class HaikuLine {
             const { length: syllables } = syllablize(str);
             this._syllables += syllables;
         }
-        return this._syllables < this.max;
+        return this._syllables < this._max;
     }
 
     toString(): string {
