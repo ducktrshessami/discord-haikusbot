@@ -60,27 +60,9 @@ const client = new Client({
     .on(Events.Warn, console.warn)
     .on(Events.Error, console.error)
     .once(Events.ClientReady, async client => {
-        try {
-            client.off(Events.Debug, console.debug);
-            console.log(`[discord] Logged in as ${client.user.tag}`);
-            setInterval(() => client.user.setPresence(getPresence()), DISCORD_PRESENCE_INTERVAL);
-            await Guild.bulkCreate(client.guilds.cache.map(guild => ({ id: guild.id })), { ignoreDuplicates: true });
-        }
-        catch (err) {
-            console.error(err);
-        }
-    })
-    .on(Events.GuildCreate, async guild => {
-        try {
-            if (client.isReady()) {
-                await Guild.findOrCreate({
-                    where: { id: guild.id }
-                });
-            }
-        }
-        catch (err) {
-            console.error(err);
-        }
+        client.off(Events.Debug, console.debug);
+        console.log(`[discord] Logged in as ${client.user.tag}`);
+        setInterval(() => client.user.setPresence(getPresence()), DISCORD_PRESENCE_INTERVAL);
     })
     .on(Events.InteractionCreate, async interaction => {
         try {

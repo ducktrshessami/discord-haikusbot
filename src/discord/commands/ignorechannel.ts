@@ -4,7 +4,7 @@ import {
     PermissionFlagsBits,
     SlashCommandBuilder
 } from "discord.js";
-import { IgnoreChannel } from "../../models/index.js";
+import { IgnorableChannel, ignoreChannel } from "../ignore.js";
 
 export const data = new SlashCommandBuilder()
     .setName("ignorechannel")
@@ -29,14 +29,8 @@ export const data = new SlashCommandBuilder()
 
 export async function callback(interaction: ChatInputCommandInteraction<"cached">): Promise<void> {
     await interaction.deferReply();
-    const channel = interaction.options.getChannel("channel");
+    const channel: IgnorableChannel | null = interaction.options.getChannel("channel");
     const channelId = channel?.id ?? interaction.channelId;
-    const [_, created] = await IgnoreChannel.findOrCreate({
-        where: { id: channelId },
-        defaults: {
-            id: channelId,
-            GuildId: interaction.guildId
-        }
-    });
-    await interaction.editReply(created ? "" : ""); // TODO
+    const ignored = await ignoreChannel(interaction.guildId, channelId);
+    await interaction.editReply(ignored ? "" : ""); // TODO
 }
