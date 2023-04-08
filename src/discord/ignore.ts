@@ -1,5 +1,7 @@
 import {
+    ApplicationCommandOptionAllowedChannelTypes,
     CategoryChannel,
+    ChannelType,
     ForumChannel,
     GuildTextBasedChannel
 } from "discord.js";
@@ -8,6 +10,17 @@ import {
     IgnoreChannel,
     sequelize
 } from "../models/index.js";
+
+export const IgnorableChannelTypes: Array<ApplicationCommandOptionAllowedChannelTypes> = [
+    ChannelType.GuildText,
+    ChannelType.GuildAnnouncement,
+    ChannelType.AnnouncementThread,
+    ChannelType.PublicThread,
+    ChannelType.PrivateThread,
+    ChannelType.GuildVoice,
+    ChannelType.GuildCategory,
+    ChannelType.GuildForum
+];
 
 export async function ignoreChannel(guildId: string, channelId: string): Promise<boolean> {
     return await sequelize.transaction(async transaction => {

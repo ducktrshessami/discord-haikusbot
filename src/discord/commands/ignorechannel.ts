@@ -1,10 +1,13 @@
 import {
-    ChannelType,
     ChatInputCommandInteraction,
     PermissionFlagsBits,
     SlashCommandBuilder
 } from "discord.js";
-import { IgnorableChannel, ignoreChannel } from "../ignore.js";
+import {
+    IgnorableChannel,
+    IgnorableChannelTypes,
+    ignoreChannel
+} from "../ignore.js";
 
 export const data = new SlashCommandBuilder()
     .setName("ignorechannel")
@@ -15,16 +18,7 @@ export const data = new SlashCommandBuilder()
         option
             .setName("channel")
             .setDescription("The channel to opt out. Defaults to the channel this command is used in.")
-            .addChannelTypes(
-                ChannelType.GuildText,
-                ChannelType.GuildAnnouncement,
-                ChannelType.AnnouncementThread,
-                ChannelType.PublicThread,
-                ChannelType.PrivateThread,
-                ChannelType.GuildVoice,
-                ChannelType.GuildCategory,
-                ChannelType.GuildForum
-            )
+            .addChannelTypes(...IgnorableChannelTypes)
     );
 
 export async function callback(interaction: ChatInputCommandInteraction<"cached">): Promise<void> {
