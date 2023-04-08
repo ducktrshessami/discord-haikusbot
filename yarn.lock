@@ -369,7 +369,7 @@ fast-deep-equal@^3.1.3:
 
 fast-syllablize@ducktrshessami/fast-syllablize#v2.1.0:
   version "2.1.0"
-  resolved "https://codeload.github.com/ducktrshessami/fast-syllablize/tar.gz/5205c5d1bf6dc72b7a3d303f59d17f35f75608a3"
+  resolved "https://codeload.github.com/ducktrshessami/fast-syllablize/tar.gz/dd41060aee1d8e24139fe2d3c29160938cd114ae"
 
 file-type@^18.2.1:
   version "18.2.1"
