@@ -1,5 +1,4 @@
 import {
-    ApplicationCommandOptionAllowedChannelTypes,
     CategoryChannel,
     ChannelType,
     ForumChannel,
@@ -13,14 +12,15 @@ import {
 } from "../models/index.js";
 import { Transaction } from "sequelize";
 
-export const IgnorableChannelTypes: Array<ApplicationCommandOptionAllowedChannelTypes> = [
+export const IgnorableChannelTypes: Array<IgnorableChannel["type"]> = [
     ChannelType.GuildText,
+    ChannelType.GuildVoice,
+    ChannelType.GuildCategory,
     ChannelType.GuildAnnouncement,
     ChannelType.AnnouncementThread,
     ChannelType.PublicThread,
     ChannelType.PrivateThread,
-    ChannelType.GuildVoice,
-    ChannelType.GuildCategory,
+    ChannelType.GuildStageVoice,
     ChannelType.GuildForum
 ];
 
