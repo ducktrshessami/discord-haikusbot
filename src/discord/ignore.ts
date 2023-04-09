@@ -3,6 +3,7 @@ import {
     CategoryChannel,
     ChannelType,
     ForumChannel,
+    GuildBasedChannel,
     GuildTextBasedChannel
 } from "discord.js";
 import {
@@ -22,6 +23,12 @@ export const IgnorableChannelTypes: Array<ApplicationCommandOptionAllowedChannel
     ChannelType.GuildCategory,
     ChannelType.GuildForum
 ];
+
+export function isIgnorable(channel: GuildBasedChannel): channel is IgnorableChannel {
+    return channel.isTextBased() ||
+        channel.type === ChannelType.GuildCategory ||
+        channel.type === ChannelType.GuildForum;
+}
 
 async function initializeGuild(guildId: string, transaction: Transaction): Promise<void> {
     await Guild.findOrCreate({
