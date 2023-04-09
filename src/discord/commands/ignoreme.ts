@@ -7,8 +7,8 @@ export const data = new SlashCommandBuilder()
 
 export async function callback(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
-    const [_, created] = await IgnoreUser.findOrCreate({
+    const [_, ignored] = await IgnoreUser.findOrCreate({
         where: { id: interaction.user.id }
     });
-    await interaction.editReply(created ? "" : ""); // TODO
+    await interaction.editReply(ignored ? "" : ""); // TODO
 }
