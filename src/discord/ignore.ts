@@ -85,4 +85,10 @@ export async function unignoreChannel(guildId: string, channelId: string): Promi
     });
 }
 
+export async function unignoreAllChannels(guildId: string): Promise<void> {
+    await Guild.destroy({
+        where: { id: guildId }
+    });
+}
+
 export type IgnorableChannel = GuildTextBasedChannel | CategoryChannel | ForumChannel;
