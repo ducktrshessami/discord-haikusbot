@@ -10,6 +10,7 @@ import {
     IgnoreChannel,
     sequelize
 } from "../models/index.js";
+import { Transaction } from "sequelize";
 
 export const IgnorableChannelTypes: Array<ApplicationCommandOptionAllowedChannelTypes> = [
     ChannelType.GuildText,
@@ -22,12 +23,16 @@ export const IgnorableChannelTypes: Array<ApplicationCommandOptionAllowedChannel
     ChannelType.GuildForum
 ];
 
+async function initializeGuild(guildId: string, transaction: Transaction): Promise<void> {
+    await Guild.findOrCreate({
+        transaction,
+        where: { id: guildId }
+    });
+}
+
 export async function ignoreChannel(guildId: string, channelId: string): Promise<boolean> {
     return await sequelize.transaction(async transaction => {
-        await Guild.findOrCreate({
-            transaction,
-            where: { id: guildId }
-        });
+        await initializeGuild(guildId, transaction);
         const [_, created] = await IgnoreChannel.findOrCreate({
             transaction,
             where: { id: channelId },
@@ -37,6 +42,19 @@ export async function ignoreChannel(guildId: string, channelId: string): Promise
             }
         });
         return created;
+    });
+}
+
+export async function ignoreChannels(guildId: string, channelIds: Array<string>): Promise<void> {
+    await sequelize.transaction(async transaction => {
+        await initializeGuild(guildId, transaction);
+        await IgnoreChannel.bulkCreate(channelIds.map(channelId => ({
+            id: channelId,
+            GuildId: guildId
+        })), {
+            transaction,
+            ignoreDuplicates: true
+        });
     });
 }
 
