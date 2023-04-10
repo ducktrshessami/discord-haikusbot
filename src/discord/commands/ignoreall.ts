@@ -20,5 +20,5 @@ export async function callback(interaction: ChatInputCommandInteraction<"cached"
         }
         return channelIds;
     }, new Array<string>()));
-    await interaction.editReply(""); // TODO
+    await interaction.editReply("Ignoring all channels");
 }

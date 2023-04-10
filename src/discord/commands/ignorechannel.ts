@@ -1,7 +1,8 @@
 import {
     ChatInputCommandInteraction,
     PermissionFlagsBits,
-    SlashCommandBuilder
+    SlashCommandBuilder,
+    channelMention
 } from "discord.js";
 import {
     IgnorableChannel,
@@ -26,5 +27,6 @@ export async function callback(interaction: ChatInputCommandInteraction<"cached"
     const channel: IgnorableChannel | null = interaction.options.getChannel("channel");
     const channelId = channel?.id ?? interaction.channelId;
     const ignored = await ignoreChannel(interaction.guildId, channelId);
-    await interaction.editReply(ignored ? "" : ""); // TODO
+    const mention = channelMention(channelId);
+    await interaction.editReply(ignored ? `Ignoring ${mention}` : `Already ignoring ${mention}`);
 }

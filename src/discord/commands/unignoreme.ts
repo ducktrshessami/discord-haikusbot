@@ -10,5 +10,5 @@ export async function callback(interaction: ChatInputCommandInteraction): Promis
     const unignored = !!await IgnoreUser.destroy({
         where: { id: interaction.user.id }
     });
-    await interaction.editReply(unignored ? "" : ""); // TODO
+    await interaction.editReply(unignored ? "Opted in to replies" : "Already opted in to replies");
 }

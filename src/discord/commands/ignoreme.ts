@@ -10,5 +10,5 @@ export async function callback(interaction: ChatInputCommandInteraction): Promis
     const [_, ignored] = await IgnoreUser.findOrCreate({
         where: { id: interaction.user.id }
     });
-    await interaction.editReply(ignored ? "" : ""); // TODO
+    await interaction.editReply(ignored ? "Opted out of replies" : "Already opted out of replies");
 }
