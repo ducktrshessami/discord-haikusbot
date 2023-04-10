@@ -17,7 +17,7 @@
   "dependencies": {
     "discord.js": "^14.9.0",
     "fast-syllablize": "ducktrshessami/fast-syllablize#v2.1.0",
-    "sequelize": "^6.30.0",
+    "sequelize": "^6.31.0",
     "sqlite3": "^5.1.6"
   },
   "optionalDependencies": {
@@ -29,6 +29,6 @@
   "devDependencies": {
     "@types/node": "^18.15.11",
     "dotenv": "^16.0.3",
-    "typescript": "^5.0.3"
+    "typescript": "^5.0.4"
   }
 }
