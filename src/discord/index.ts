@@ -20,11 +20,7 @@ import {
     DISCORD_SWEEPER_INTERVAL,
     DISCORD_THREAD_LIFETIME
 } from "../constants.js";
-import {
-    Guild,
-    IgnoreChannel,
-    IgnoreUser
-} from "../models/index.js";
+import { IgnoreChannel, IgnoreUser } from "../models/index.js";
 import commands from "./commands/index.js";
 import { formatHaiku, haikuable } from "./haiku.js";
 
