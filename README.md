@@ -18,7 +18,7 @@ Original bot created by [XxBobTheZealotxX](https://www.reddit.com/user/XxBobTheZ
 
 ## Invite to Your Server
 
-### [Invite haikusbot]()
+### [Invite haikusbot](https://discord.com/api/oauth2/authorize?client_id=1093782475072876575&scope=bot+applications.commands&permissions=3072)
 
 haikusbot can be invited to your server with the above link.
 
