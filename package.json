@@ -15,19 +15,18 @@
     "deploy": "node dist/discord/deploy.js"
   },
   "dependencies": {
-    "discord.js": "^14.9.0",
+    "discord.js": "^14.10.2",
     "fast-syllablize": "ducktrshessami/fast-syllablize#v2.1.0",
-    "sequelize": "^6.31.0",
+    "sequelize": "^6.31.1",
     "sqlite3": "^5.1.6"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.7",
-    "erlpack": "discord/erlpack",
     "utf-8-validate": "^6.0.3",
     "zlib-sync": "^0.1.8"
   },
   "devDependencies": {
-    "@types/node": "^18.15.11",
+    "@types/node": "^18.16.3",
     "dotenv": "^16.0.3",
     "typescript": "^5.0.4"
   }
