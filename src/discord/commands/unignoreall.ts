@@ -14,5 +14,5 @@ export const data = new SlashCommandBuilder()
 export async function callback(interaction: ChatInputCommandInteraction<"cached">): Promise<void> {
     await interaction.deferReply();
     await unignoreAllChannels(interaction.guildId);
-    await interaction.editReply("Stopped ignoring all channel");
+    await interaction.editReply("Stopped ignoring all channels");
 }
