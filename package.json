@@ -9,6 +9,8 @@
   "license": "MIT",
   "scripts": {
     "build": "rm -rf dist/ && tsc",
+    "minify": "node minify.js",
+    "minbuild": "yarn build && yarn minify",
     "prestart": "yarn build",
     "start": "node dist/index.js",
     "predeploy": "yarn build",
@@ -28,6 +30,7 @@
   "devDependencies": {
     "@types/node": "^20.1.0",
     "dotenv": "^16.0.3",
+    "minify": "^9.2.0",
     "typescript": "^5.0.4"
   }
 }
