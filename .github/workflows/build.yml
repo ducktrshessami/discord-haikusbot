@@ -1,4 +1,4 @@
-name: Build
+name: MinBuild
 
 on:
   workflow_dispatch:
@@ -18,4 +18,4 @@ jobs:
     - name: install
       run: yarn --immutable
     - name: build
-      run: yarn build
+      run: yarn minbuild
