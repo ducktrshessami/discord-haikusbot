@@ -11,9 +11,7 @@
     "build": "rm -rf dist/ && tsc",
     "minify": "node minify.js",
     "minbuild": "yarn build && yarn minify",
-    "prestart": "yarn build",
     "start": "node dist/index.js",
-    "predeploy": "yarn build",
     "deploy": "node dist/discord/deploy.js"
   },
   "dependencies": {
