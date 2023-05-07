@@ -85,6 +85,7 @@ const client = new Client({
                 !message.author.bot &&
                 message.cleanContent &&
                 message.inGuild() &&
+                !message.guild.members.me?.isCommunicationDisabled() &&
                 message.channel.viewable &&
                 message.channel
                     .permissionsFor(message.client.user)
