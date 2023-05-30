@@ -16,6 +16,8 @@ A [Discord](https://discord.com/) bot based on the [Reddit bot of the same name]
 
 Original bot created by [XxBobTheZealotxX](https://www.reddit.com/user/XxBobTheZealotxX/)
 
+Presence activities by Entrop
+
 ## Invite to Your Server
 
 ### [Invite haikusbot](https://discord.com/api/oauth2/authorize?client_id=1093782475072876575&scope=bot+applications.commands&permissions=3072)
