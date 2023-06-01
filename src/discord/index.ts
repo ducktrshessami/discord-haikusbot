@@ -95,7 +95,7 @@ const client = new Client({
             ) {
                 const haiku = formatHaiku(message.cleanContent);
                 if (haiku && haiku.toLowerCase() != message.cleanContent.toLowerCase()) {
-                    await message.channel.send(`${italic(haiku)}\n- ${message.author}`);
+                    await message.channel.send(`${italic(haiku)}\n\\- ${message.author}`);
                 }
             }
         }
