@@ -1,4 +1,5 @@
 import { syllablize } from "fast-syllablize";
+import { Dict } from "node-cmudict";
 
 const UrlPattern = /https?:\/\/(?:www\.)?[-A-Z0-9@:%._\+~#=]{1,256}(?:\.[A-Z0-9()]{1,6})?\b(?:[-A-Z0-9()@:%_\+.~#?&\/=]*)/i;
 const NonWordPattern = /((?:<?(a)?:?(\w{2,32}):(\d{17,19})>?)|[^A-Z]+)/i;
@@ -29,6 +30,22 @@ export function formatHaiku(content: string): string | null {
     return lines.length === 3 && lines.every(line => line.valid) ? lines.join("\n") : null;
 }
 
+function countSyllables(word: string): number {
+    const entry = Dict.get(word);
+    if (entry && entry.pronunciations.length) {
+        return entry.pronunciations[0].phonemes.reduce((count, phoneme) => {
+            if (phoneme.stress !== null) {
+                count++;
+            }
+            return count;
+        }, 0);
+    }
+    else {
+        const { length } = syllablize(word);
+        return length;
+    }
+}
+
 class HaikuLine {
     private _line: string;
     private _syllables: number;
@@ -53,8 +70,7 @@ class HaikuLine {
     append(str: string, word: boolean): boolean {
         this._line += str;
         if (word) {
-            const { length: syllables } = syllablize(str);
-            this._syllables += syllables;
+            this._syllables += countSyllables(str);
         }
         return this._syllables < this._max;
     }
