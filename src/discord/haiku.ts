@@ -34,7 +34,7 @@ function countSyllables(word: string): number {
     const entry = Dict.get(word);
     if (entry && entry.pronunciations.length) {
         return entry.pronunciations[0].phonemes.reduce((count, phoneme) => {
-            if (phoneme.stress) {
+            if (phoneme.stress !== null) {
                 count++;
             }
             return count;
