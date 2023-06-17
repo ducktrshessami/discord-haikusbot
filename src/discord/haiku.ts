@@ -2,7 +2,8 @@ import { syllablize } from "fast-syllablize";
 import { Dict } from "node-cmudict";
 
 const UrlPattern = /https?:\/\/(?:www\.)?[-A-Z0-9@:%._\+~#=]{1,256}(?:\.[A-Z0-9()]{1,6})?\b(?:[-A-Z0-9()@:%_\+.~#?&\/=]*)/i;
-const NonWordPattern = /((?:<?(a)?:?(\w{2,32}):(\d{17,19})>?)|[^A-Z]+)/i;
+const NonWordPattern = /((?:<?(a)?:?(\w{2,32}):(\d{17,19})>?)|(?<![A-Z])['.-]+(?![A-Z])|[^A-Z'.-]+)/i;
+const StrictWordPattern = /([A-Z]+)/i;
 
 export function haikuable(content: string): boolean {
     return !UrlPattern.test(content);
