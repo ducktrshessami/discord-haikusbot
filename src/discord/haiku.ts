@@ -2,8 +2,8 @@ import { syllablize } from "fast-syllablize";
 import { Dict, Entry } from "node-cmudict";
 
 const UrlPattern = /https?:\/\/(?:www\.)?[-A-Z0-9@:%._\+~#=]{1,256}(?:\.[A-Z0-9()]{1,6})?\b(?:[-A-Z0-9()@:%_\+.~#?&\/=]*)/i;
-const NonWordPattern = /((?:<?(a)?:?(\w{2,32}):(\d{17,19})>?)|(?<![A-Z])['.-]+(?![A-Z])|[^A-Z'.-]+)/i;
-const StrictWordPattern = /[A-Z]+/gi;
+const NonWordPattern = getNonWordPattern();
+const WordPattern = /[A-Z]+/gi;
 
 export function haikuable(content: string): boolean {
     return !UrlPattern.test(content);
@@ -29,6 +29,19 @@ export function formatHaiku(content: string): string | null {
     return lines.length === 3 && lines.every(line => line.valid) ? lines.join("\n") : null;
 }
 
+function getNonWordPattern(): RegExp {
+    const symbolPattern = /[^A-Z]/gi;
+    const symbols = new Set<string>();
+    for (const entry of Dict.values()) {
+        const entrySymbols = entry.name.match(symbolPattern);
+        entrySymbols?.forEach(symbol => symbols.add(symbol));
+    }
+    const dictSymbols = Array
+        .from(symbols)
+        .join("");
+    return new RegExp(`((?:<?(a)?:?(\\w{2,32}):(\\d{17,19})>?)|(?<![A-Z])[${dictSymbols}]+(?![A-Z])|[^A-Z${dictSymbols}]+)`, "i");
+}
+
 function splitString(str: string, pattern: RegExp): Array<string> {
     return str
         .split(pattern)
@@ -50,7 +63,7 @@ function countSyllables(word: string): number {
         return countEntrySyllables(entry);
     }
     else {
-        const strict = splitString(word, StrictWordPattern);
+        const strict = splitString(word, WordPattern);
         return strict.reduce((count, str) => {
             entry = Dict.get(str);
             if (entry && entry.pronunciations.length) {
