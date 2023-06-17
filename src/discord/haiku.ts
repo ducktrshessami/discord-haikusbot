@@ -1,9 +1,9 @@
 import { syllablize } from "fast-syllablize";
-import { Dict } from "node-cmudict";
+import { Dict, Entry } from "node-cmudict";
 
 const UrlPattern = /https?:\/\/(?:www\.)?[-A-Z0-9@:%._\+~#=]{1,256}(?:\.[A-Z0-9()]{1,6})?\b(?:[-A-Z0-9()@:%_\+.~#?&\/=]*)/i;
 const NonWordPattern = /((?:<?(a)?:?(\w{2,32}):(\d{17,19})>?)|(?<![A-Z])['.-]+(?![A-Z])|[^A-Z'.-]+)/i;
-const StrictWordPattern = /([A-Z]+)/i;
+const StrictWordPattern = /[A-Z]+/gi;
 
 export function haikuable(content: string): boolean {
     return !UrlPattern.test(content);
@@ -11,9 +11,7 @@ export function haikuable(content: string): boolean {
 
 export function formatHaiku(content: string): string | null {
     const lines = [new HaikuLine(5)];
-    const chars = content
-        .split(NonWordPattern)
-        .filter(item => typeof item === "string");
+    const chars = splitString(content, NonWordPattern);
     for (let i = 0; i < chars.length; i++) {
         const line = lines[lines.length - 1];
         if (chars[i] && !line.append(chars[i], !(i & 1))) {
@@ -31,19 +29,39 @@ export function formatHaiku(content: string): string | null {
     return lines.length === 3 && lines.every(line => line.valid) ? lines.join("\n") : null;
 }
 
+function splitString(str: string, pattern: RegExp): Array<string> {
+    return str
+        .split(pattern)
+        .filter(item => typeof item === "string");
+}
+
+function countEntrySyllables(entry: Entry): number {
+    return entry.pronunciations[0].phonemes.reduce((count, phoneme) => {
+        if (phoneme.stress !== null) {
+            count++;
+        }
+        return count;
+    }, 0);
+}
+
 function countSyllables(word: string): number {
-    const entry = Dict.get(word);
+    let entry = Dict.get(word);
     if (entry && entry.pronunciations.length) {
-        return entry.pronunciations[0].phonemes.reduce((count, phoneme) => {
-            if (phoneme.stress !== null) {
-                count++;
+        return countEntrySyllables(entry);
+    }
+    else {
+        const strict = splitString(word, StrictWordPattern);
+        return strict.reduce((count, str) => {
+            entry = Dict.get(str);
+            if (entry && entry.pronunciations.length) {
+                count += countEntrySyllables(entry);
+            }
+            else {
+                const { length } = syllablize(str);
+                count += length;
             }
             return count;
         }, 0);
-    }
-    else {
-        const { length } = syllablize(word);
-        return length;
     }
 }
 
