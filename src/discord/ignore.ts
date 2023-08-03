@@ -14,7 +14,7 @@ import {
     IgnoreUser,
     sequelize
 } from "../models/index.js";
-import { Transaction } from "sequelize";
+import { Op, Transaction } from "sequelize";
 
 export const IgnorableChannelTypes: Array<IgnorableChannel["type"]> = [
     ChannelType.GuildText,
@@ -95,12 +95,19 @@ export async function unignoreAllChannels(guildId: string): Promise<void> {
     });
 }
 
-async function channelIgnored(channel: GuildChannel | ThreadChannel): Promise<boolean> {
-    let ignored = !!await IgnoreChannel.findByPk(channel.id);
-    if (channel.parent) {
-        ignored ||= await channelIgnored(channel.parent);
+function resolveChannelIds(channel: GuildBasedChannel, ids: Array<string> = [channel.id]): Array<string> {
+    if (channel.parentId) {
+        ids.push(channel.parentId);
     }
-    return ignored;
+    return channel.parent ? resolveChannelIds(channel.parent, ids) : ids;
+}
+
+async function channelIgnored(channel: GuildBasedChannel): Promise<boolean> {
+    return !!await IgnoreChannel.findOne({
+        where: {
+            id: { [Op.or]: resolveChannelIds(channel) }
+        }
+    });
 }
 
 export async function ignoreMessage(message: Message<true>): Promise<boolean> {
