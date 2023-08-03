@@ -2,13 +2,10 @@ import {
     Client,
     Events,
     GatewayIntentBits,
-    GuildChannel,
     GuildMember,
-    Message,
     Options,
     PermissionFlagsBits,
     PresenceData,
-    ThreadChannel,
     User,
     italic
 } from "discord.js";
@@ -20,9 +17,9 @@ import {
     DISCORD_SWEEPER_INTERVAL,
     DISCORD_THREAD_LIFETIME
 } from "../constants.js";
-import { IgnoreChannel, IgnoreUser } from "../models/index.js";
 import commands from "./commands/index.js";
 import { formatHaiku, haikuable } from "./haiku.js";
+import { ignoreMessage } from "./ignore.js";
 
 const client = new Client({
     intents: GatewayIntentBits.Guilds |
@@ -91,7 +88,7 @@ const client = new Client({
                     .permissionsFor(message.client.user)
                     ?.has(PermissionFlagsBits.SendMessages) &&
                 haikuable(message.cleanContent) &&
-                !await ignore(message)
+                !await ignoreMessage(message)
             ) {
                 const haiku = formatHaiku(message.cleanContent);
                 if (haiku && haiku.toLowerCase() != message.cleanContent.toLowerCase()) {
@@ -110,22 +107,6 @@ function getPresence(): PresenceData {
 
 function keepClientUser(userOrMember: User | GuildMember): boolean {
     return userOrMember.id === process.env.DISCORD_CLIENT_ID;
-}
-
-async function channelIgnored(channel: GuildChannel | ThreadChannel): Promise<boolean> {
-    let ignored = !!await IgnoreChannel.findByPk(channel.id);
-    if (channel.parent) {
-        ignored ||= await channelIgnored(channel.parent);
-    }
-    return ignored;
-}
-
-async function ignore(message: Message<true>): Promise<boolean> {
-    const [channel, user] = await Promise.all([
-        channelIgnored(message.channel),
-        IgnoreUser.findByPk(message.author.id)
-    ]);
-    return channel || !!user;
 }
 
 export async function login(): Promise<void> {

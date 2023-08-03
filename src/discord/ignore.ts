@@ -3,14 +3,18 @@ import {
     ChannelType,
     ForumChannel,
     GuildBasedChannel,
-    GuildTextBasedChannel
+    GuildChannel,
+    GuildTextBasedChannel,
+    Message,
+    ThreadChannel
 } from "discord.js";
 import {
     Guild,
     IgnoreChannel,
+    IgnoreUser,
     sequelize
 } from "../models/index.js";
-import { Transaction } from "sequelize";
+import { Op, Transaction } from "sequelize";
 
 export const IgnorableChannelTypes: Array<IgnorableChannel["type"]> = [
     ChannelType.GuildText,
@@ -89,6 +93,29 @@ export async function unignoreAllChannels(guildId: string): Promise<void> {
     await Guild.destroy({
         where: { id: guildId }
     });
+}
+
+function resolveChannelIds(channel: GuildBasedChannel, ids: Array<string> = [channel.id]): Array<string> {
+    if (channel.parentId) {
+        ids.push(channel.parentId);
+    }
+    return channel.parent ? resolveChannelIds(channel.parent, ids) : ids;
+}
+
+async function channelIgnored(channel: GuildBasedChannel): Promise<boolean> {
+    return !!await IgnoreChannel.findOne({
+        where: {
+            id: { [Op.or]: resolveChannelIds(channel) }
+        }
+    });
+}
+
+export async function ignoreMessage(message: Message<true>): Promise<boolean> {
+    const [channel, user] = await Promise.all([
+        channelIgnored(message.channel),
+        IgnoreUser.findByPk(message.author.id)
+    ]);
+    return channel || !!user;
 }
 
 export type IgnorableChannel = GuildTextBasedChannel | CategoryChannel | ForumChannel;
