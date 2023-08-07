@@ -98,7 +98,7 @@ class HaikuLine {
     append(str: string, word: boolean): boolean {
         this._line += str;
         if (word) {
-            this._syllables += countSyllables(str);
+            this._syllables += countSyllables(str.toLowerCase());
         }
         return this._syllables < this._max;
     }
