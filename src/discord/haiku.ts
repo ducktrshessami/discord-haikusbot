@@ -63,7 +63,7 @@ function countSyllables(word: string): number {
         return countEntrySyllables(entry);
     }
     else {
-        const strict = splitString(word, WordPattern);
+        const strict = word.match(WordPattern)!;
         return strict.reduce((count, str) => {
             entry = Dict.get(str);
             if (entry && entry.pronunciations.length) {
