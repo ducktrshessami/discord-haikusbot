@@ -11,7 +11,9 @@ export function haikuable(content: string): boolean {
 
 export function formatHaiku(content: string): string | null {
     const lines = [new HaikuLine(5)];
-    const chars = splitString(content, NonWordPattern);
+    const chars = content
+        .split(NonWordPattern)
+        .filter(item => typeof item === "string");
     for (let i = 0; i < chars.length; i++) {
         const line = lines[lines.length - 1];
         if (chars[i] && !line.append(chars[i], !(i & 1))) {
@@ -42,12 +44,6 @@ function getNonWordPattern(): RegExp {
     return new RegExp(`((?:<?(a)?:?(\\w{2,32}):(\\d{17,19})>?)|(?<![A-Z])[${dictSymbols}]+(?![A-Z])|[^A-Z${dictSymbols}]+)`, "i");
 }
 
-function splitString(str: string, pattern: RegExp): Array<string> {
-    return str
-        .split(pattern)
-        .filter(item => typeof item === "string");
-}
-
 function countEntrySyllables(entry: Entry): number {
     return entry.pronunciations[0].phonemes.reduce((count, phoneme) => {
         if (phoneme.stress !== null) {
@@ -63,7 +59,7 @@ function countSyllables(word: string): number {
         return countEntrySyllables(entry);
     }
     else {
-        const strict = splitString(word, WordPattern);
+        const strict = word.match(WordPattern)!;
         return strict.reduce((count, str) => {
             entry = Dict.get(str);
             if (entry && entry.pronunciations.length) {
@@ -102,7 +98,7 @@ class HaikuLine {
     append(str: string, word: boolean): boolean {
         this._line += str;
         if (word) {
-            this._syllables += countSyllables(str);
+            this._syllables += countSyllables(str.toLowerCase());
         }
         return this._syllables < this._max;
     }
