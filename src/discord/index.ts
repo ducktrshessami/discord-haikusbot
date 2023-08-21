@@ -1,8 +1,10 @@
 import {
+    ChannelType,
     Client,
     Events,
     GatewayIntentBits,
     GuildMember,
+    GuildTextBasedChannel,
     Options,
     PermissionFlagsBits,
     PresenceData,
@@ -83,10 +85,7 @@ const client = new Client({
                 message.cleanContent &&
                 message.inGuild() &&
                 !message.guild.members.me?.isCommunicationDisabled() &&
-                message.channel.viewable &&
-                message.channel
-                    .permissionsFor(message.client.user)
-                    ?.has(PermissionFlagsBits.SendMessages) &&
+                isSendable(message.channel) &&
                 haikuable(message.cleanContent) &&
                 !await ignoreMessage(message)
             ) {
@@ -111,4 +110,16 @@ function keepClientUser(userOrMember: User | GuildMember): boolean {
 
 export async function login(): Promise<void> {
     await client.login();
+}
+
+function isSendable(channel: GuildTextBasedChannel): boolean {
+    const permissions = channel.permissionsFor(channel.client.user);
+    return !!permissions?.has(PermissionFlagsBits.ViewChannel) && (
+        channel.isThread() ? (
+            !(channel.archived && channel.locked && !channel.manageable) &&
+            (channel.type !== ChannelType.PrivateThread || channel.joined || channel.manageable) &&
+            permissions.has(PermissionFlagsBits.SendMessagesInThreads)
+        ) :
+            permissions.has(PermissionFlagsBits.SendMessages)
+    );
 }
