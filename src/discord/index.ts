@@ -100,16 +100,16 @@ const client = new Client({
         }
     });
 
+export async function login(): Promise<void> {
+    await client.login();
+}
+
 function getPresence(): PresenceData {
     return { activities: [activities[Math.floor(Math.random() * activities.length)]] };
 }
 
 function keepClientUser(userOrMember: User | GuildMember): boolean {
     return userOrMember.id === process.env.DISCORD_CLIENT_ID;
-}
-
-export async function login(): Promise<void> {
-    await client.login();
 }
 
 function isSendable(channel: GuildTextBasedChannel): boolean {
