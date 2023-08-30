@@ -1,6 +1,6 @@
 {
   "name": "discord-haikusbot",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "I detect haikus",
   "type": "module",
   "main": "dist/index.js",
