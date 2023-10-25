@@ -3,10 +3,9 @@ import {
     ChannelType,
     ForumChannel,
     GuildBasedChannel,
-    GuildChannel,
     GuildTextBasedChannel,
-    Message,
-    ThreadChannel
+    MediaChannel,
+    Message
 } from "discord.js";
 import {
     Guild,
@@ -25,7 +24,8 @@ export const IgnorableChannelTypes: Array<IgnorableChannel["type"]> = [
     ChannelType.PublicThread,
     ChannelType.PrivateThread,
     ChannelType.GuildStageVoice,
-    ChannelType.GuildForum
+    ChannelType.GuildForum,
+    ChannelType.GuildMedia
 ];
 
 export function isIgnorable(channel: GuildBasedChannel): channel is IgnorableChannel {
@@ -118,4 +118,4 @@ export async function ignoreMessage(message: Message<true>): Promise<boolean> {
     return channel || !!user;
 }
 
-export type IgnorableChannel = GuildTextBasedChannel | CategoryChannel | ForumChannel;
+export type IgnorableChannel = GuildTextBasedChannel | CategoryChannel | ForumChannel | MediaChannel;
