@@ -29,9 +29,7 @@ export const IgnorableChannelTypes: Array<IgnorableChannel["type"]> = [
 ];
 
 export function isIgnorable(channel: GuildBasedChannel): channel is IgnorableChannel {
-    return channel.isTextBased() ||
-        channel.type === ChannelType.GuildCategory ||
-        channel.type === ChannelType.GuildForum;
+    return (<Array<ChannelType>>IgnorableChannelTypes).includes(channel.type);
 }
 
 async function initializeGuild(guildId: string, transaction: Transaction): Promise<void> {
