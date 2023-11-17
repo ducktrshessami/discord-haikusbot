@@ -101,6 +101,9 @@ function resolveChannelIds(channel: GuildBasedChannel, ids: Array<string> = [cha
 }
 
 async function channelIgnored(channel: GuildBasedChannel): Promise<boolean> {
+    if (!isIgnorable(channel)) {
+        return false;
+    }
     return !!await IgnoreChannel.findOne({
         where: {
             id: { [Op.or]: resolveChannelIds(channel) }
