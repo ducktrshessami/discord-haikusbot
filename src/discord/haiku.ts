@@ -1,10 +1,10 @@
 import { syllablize } from "fast-syllablize";
 import { Entry, getDict } from "node-cmudict";
 
+const Dict = getDict();
 const UrlPattern = /https?:\/\/(?:www\.)?[-A-Z0-9@:%._\+~#=]{1,256}(?:\.[A-Z0-9()]{1,6})?\b(?:[-A-Z0-9()@:%_\+.~#?&\/=]*)/i;
 const NonWordPattern = getNonWordPattern();
 const WordPattern = /[A-Z]+/gi;
-const Dict = getDict();
 
 export function haikuable(content: string): boolean {
     return !UrlPattern.test(content);
