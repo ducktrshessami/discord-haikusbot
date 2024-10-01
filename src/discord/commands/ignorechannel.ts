@@ -1,5 +1,6 @@
 import {
     ChatInputCommandInteraction,
+    InteractionContextType,
     PermissionFlagsBits,
     SlashCommandBuilder,
     channelMention
@@ -9,7 +10,7 @@ import { IgnorableChannelTypes, ignoreChannel } from "../ignore.js";
 export const data = new SlashCommandBuilder()
     .setName("ignorechannel")
     .setDescription("Opt a channel out of replies")
-    .setDMPermission(false)
+    .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addChannelOption(option =>
         option
