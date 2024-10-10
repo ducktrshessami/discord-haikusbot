@@ -11,7 +11,6 @@ import {
     User,
     italic
 } from "discord.js";
-import activities from "./activities.js";
 import {
     DISCORD_LIMITED_CACHE_MAX,
     DISCORD_MESSAGE_LIFETIME,
@@ -19,6 +18,7 @@ import {
     DISCORD_SWEEPER_INTERVAL,
     DISCORD_THREAD_LIFETIME
 } from "../constants.js";
+import activities from "./activities.js";
 import commands from "./commands/index.js";
 import { formatHaiku, haikuable } from "./haiku.js";
 import { ignoreMessage } from "./ignore.js";
@@ -55,7 +55,7 @@ const client = new Client({
     .on(Events.Warn, console.warn)
     .on(Events.Error, console.error)
     .once(Events.ClientReady, async client => {
-        client.off(Events.Debug, console.debug);
+        // client.off(Events.Debug, console.debug);
         console.log(`[discord] Logged in as ${client.user.tag}`);
         setInterval(() => client.user.setPresence(getPresence()), DISCORD_PRESENCE_INTERVAL);
     })
