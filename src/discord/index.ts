@@ -5,6 +5,7 @@ import {
     GatewayIntentBits,
     GuildMember,
     GuildTextBasedChannel,
+    InteractionContextType,
     Options,
     PermissionFlagsBits,
     PresenceData,
@@ -65,8 +66,8 @@ const client = new Client({
                 const command = commands.get(interaction.commandName);
                 if (
                     command && (
-                        command.data.dm_permission !== false ||
-                        interaction.inCachedGuild()
+                        interaction.inCachedGuild() ||
+                        command.data.contexts?.some(context => context !== InteractionContextType.Guild)
                     )
                 ) {
                     console.log(`[discord] ${interaction.user.id} used ${interaction}`);

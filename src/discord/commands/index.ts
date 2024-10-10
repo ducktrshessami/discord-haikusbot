@@ -30,7 +30,7 @@ export default commands;
 type SlashCommandData = Pick<SlashCommandBuilder,
     "name" |
     "name_localizations" |
-    "dm_permission" |
+    "contexts" |
     "nsfw" |
     "toJSON"
 >;
