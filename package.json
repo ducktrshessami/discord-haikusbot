@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "discord.js": "^15.0.0-dev.1728475516-c36728a81",
-    "fast-syllablize": "github:ducktrshessami/fast-syllablize#v2.1.5",
-    "node-cmudict": "github:ducktrshessami/node-cmudict#v2.1.1",
-    "sequelize": "^6.37.3",
+    "fast-syllablize": "ducktrshessami/fast-syllablize#v2.1.5",
+    "node-cmudict": "ducktrshessami/node-cmudict#v2.1.1",
+    "sequelize": "^6.37.4",
     "sqlite3": "^5.1.7"
   },
   "optionalDependencies": {
@@ -26,9 +26,9 @@
     "zlib-sync": "^0.1.9"
   },
   "devDependencies": {
-    "@types/node": "^22.7.4",
+    "@types/node": "^22.7.5",
     "dotenv": "^16.4.5",
     "minify": "^9.2.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   }
 }
