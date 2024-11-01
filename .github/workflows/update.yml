@@ -1,0 +1,25 @@
+name: Update discord.js
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: update
+        run: yarn add discord.js@dev
+      - name: configure
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: commit
+        run: |
+          git add package.json yarn.lock
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update discord.js"
+      - name: push
+        run: git push
