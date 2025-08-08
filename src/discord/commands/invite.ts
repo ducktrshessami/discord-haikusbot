@@ -1,7 +1,5 @@
 import {
     ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
     ChatInputCommandInteraction,
     InteractionContextType,
     OAuth2Scopes,
@@ -20,14 +18,14 @@ export const data: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 };
 
 export async function callback(interaction: ChatInputCommandInteraction): Promise<void> {
-    const button = new ButtonBuilder()
-        .setStyle(ButtonStyle.Link)
-        .setLabel("Invite")
-        .setURL(interaction.client.generateInvite({
-            scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
-            permissions: PermissionFlagsBits.ViewChannel | PermissionFlagsBits.SendMessages
-        }));
-    const row = new ActionRowBuilder<ButtonBuilder>()
-        .addComponents(button);
+    const row = new ActionRowBuilder()
+        .addLinkButtonComponents(button =>
+            button
+                .setLabel("Invite")
+                .setURL(interaction.client.generateInvite({
+                    scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
+                    permissions: PermissionFlagsBits.ViewChannel | PermissionFlagsBits.SendMessages
+                }))
+        );
     await interaction.reply({ components: [row] });
 }
