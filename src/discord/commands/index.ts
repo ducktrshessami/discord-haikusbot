@@ -3,7 +3,7 @@ import {
     Awaitable,
     ChatInputCommandInteraction,
     Collection,
-    SlashCommandBuilder
+    RESTPostAPIChatInputApplicationCommandsJSONBody
 } from "discord.js";
 import { readdirSync } from "fs";
 import { basename } from "path";
@@ -27,16 +27,8 @@ const commands = new Collection<string, SlashCommand>(
 );
 export default commands;
 
-type SlashCommandData = Pick<SlashCommandBuilder,
-    "name" |
-    "name_localizations" |
-    "contexts" |
-    "nsfw" |
-    "toJSON"
->;
-
 interface SlashCommand {
-    data: SlashCommandData;
+    data: RESTPostAPIChatInputApplicationCommandsJSONBody;
     autocomplete?(interaction: AutocompleteInteraction): Awaitable<void>;
     callback(interaction: ChatInputCommandInteraction): Awaitable<void>;
 }

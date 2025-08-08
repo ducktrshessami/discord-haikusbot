@@ -1,23 +1,25 @@
 import {
+    ApplicationCommandOptionType,
     ChatInputCommandInteraction,
     InteractionContextType,
     PermissionFlagsBits,
-    SlashCommandBuilder,
+    RESTPostAPIChatInputApplicationCommandsJSONBody,
     channelMention
 } from "discord.js";
 import { IgnorableChannelTypes, ignoreChannel } from "../ignore.js";
 
-export const data = new SlashCommandBuilder()
-    .setName("ignorechannel")
-    .setDescription("Opt a channel out of replies")
-    .setContexts(InteractionContextType.Guild)
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-    .addChannelOption(option =>
-        option
-            .setName("channel")
-            .setDescription("The channel to opt out. Defaults to the channel this command is used in.")
-            .addChannelTypes(...IgnorableChannelTypes)
-    );
+export const data: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+    name: "ignorechannel",
+    description: "Opt a channel out of replies",
+    contexts: [InteractionContextType.Guild],
+    default_member_permissions: PermissionFlagsBits.ManageChannels.toString(),
+    options: [{
+        type: ApplicationCommandOptionType.Channel,
+        name: "channel",
+        description: "The channel to opt out. Defaults to the channel this command is used in.",
+        channel_types: IgnorableChannelTypes
+    }]
+};
 
 export async function callback(interaction: ChatInputCommandInteraction<"cached">): Promise<void> {
     await interaction.deferReply();

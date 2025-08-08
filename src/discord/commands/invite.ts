@@ -3,14 +3,21 @@ import {
     ButtonBuilder,
     ButtonStyle,
     ChatInputCommandInteraction,
+    InteractionContextType,
     OAuth2Scopes,
     PermissionFlagsBits,
-    SlashCommandBuilder
+    RESTPostAPIChatInputApplicationCommandsJSONBody
 } from "discord.js";
 
-export const data = new SlashCommandBuilder()
-    .setName("invite")
-    .setDescription("Send my invite link");
+export const data: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+    name: "invite",
+    description: "Send my invite link",
+    contexts: [
+        InteractionContextType.Guild,
+        InteractionContextType.BotDM,
+        InteractionContextType.PrivateChannel
+    ]
+};
 
 export async function callback(interaction: ChatInputCommandInteraction): Promise<void> {
     const button = new ButtonBuilder()

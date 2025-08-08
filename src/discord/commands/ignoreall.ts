@@ -2,15 +2,16 @@ import {
     ChatInputCommandInteraction,
     InteractionContextType,
     PermissionFlagsBits,
-    SlashCommandBuilder
+    RESTPostAPIChatInputApplicationCommandsJSONBody
 } from "discord.js";
 import { ignoreChannels, isIgnorable } from "../ignore.js";
 
-export const data = new SlashCommandBuilder()
-    .setName("ignoreall")
-    .setDescription("Opt all channels out of replies")
-    .setContexts(InteractionContextType.Guild)
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild);
+export const data: RESTPostAPIChatInputApplicationCommandsJSONBody = {
+    name: "ignoreall",
+    description: "Opt all channels out of replies",
+    contexts: [InteractionContextType.Guild],
+    default_member_permissions: PermissionFlagsBits.ManageGuild.toString()
+};
 
 export async function callback(interaction: ChatInputCommandInteraction<"cached">): Promise<void> {
     await interaction.deferReply();
