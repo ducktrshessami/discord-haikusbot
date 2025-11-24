@@ -2,20 +2,20 @@ import { ActivitiesOptions, ActivityType } from "discord.js";
 
 const activities: Array<ActivitiesOptions> = [
     {
-        type: ActivityType.Playing,
-        name: "on words"
+        type: ActivityType.Custom,
+        name: "Playing on words"
     },
     {
-        type: ActivityType.Listening,
-        name: "the 17 phonetic units"
+        type: ActivityType.Custom,
+        name: "Listening to the 17 phonetic units"
     },
     {
-        type: ActivityType.Playing,
-        name: "with your heartstrings"
+        type: ActivityType.Custom,
+        name: "Playing with your heartstrings"
     },
     {
-        type: ActivityType.Watching,
-        name: "furuike ya"
+        type: ActivityType.Custom,
+        name: "古池や \\ 蛙飛び込む \\ 水の音"
     }
 ];
 export default activities;
