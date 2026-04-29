@@ -16,14 +16,14 @@ export function formatHaiku(content: string): string | null {
         .split(NonWordPattern)
         .filter(item => typeof item === "string");
     for (let i = 0; i < chars.length; i++) {
-        const line = lines[lines.length - 1];
-        if (chars[i] && !line.append(chars[i], !(i & 1))) {
+        const line = lines[lines.length - 1]!;
+        if (chars[i] && !line.append(chars[i]!, !(i & 1))) {
             if (line.over) {
                 return null;
             }
             else if (lines.length < 3) {
                 if (chars[i++]) {
-                    line.append(chars[i], false);
+                    line.append(chars[i]!, false);
                 }
                 lines.push(new HaikuLine(lines.length & 1 ? 7 : 5));
             }
@@ -46,7 +46,7 @@ function getNonWordPattern(): RegExp {
 }
 
 function countEntrySyllables(entry: Entry): number {
-    return entry.pronunciations[0].phonemes.reduce((count, phoneme) => {
+    return entry.pronunciations[0]!.phonemes.reduce((count, phoneme) => {
         if (phoneme.stress !== null) {
             count++;
         }
@@ -106,6 +106,6 @@ class HaikuLine {
 
     toString(): string {
         const trimmed = this._line.trim();
-        return trimmed[0].toUpperCase() + trimmed.slice(1);
+        return trimmed[0]!.toUpperCase() + trimmed.slice(1);
     }
 }
