@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
-    "minify": "^9.2.0",
+    "minify": "^15.3.1",
     "typescript": "^6.0.3"
   }
 }
