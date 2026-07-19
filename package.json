@@ -15,9 +15,9 @@
     "deploy": "node --env-file-if-exists .env dist/discord/deploy.js"
   },
   "dependencies": {
-    "discord.js": "^15.0.0-dev.1770595415-a3e189df0",
+    "discord.js": "^15.0.0-dev.1784333790-d29e25d24",
     "fast-syllablize": "ducktrshessami/fast-syllablize#v2.1.5",
-    "node-cmudict": "ducktrshessami/node-cmudict#v2.1.1",
+    "node-cmudict": "ducktrshessami/node-cmudict#v2.1.3",
     "sequelize": "^6.37.8",
     "sqlite3": "^6.0.1"
   },
@@ -26,8 +26,8 @@
     "zlib-sync": "^0.1.10"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0",
-    "minify": "^15.3.1",
-    "typescript": "^6.0.3"
+    "@types/node": "^26.1.1",
+    "minify": "^9.2.0",
+    "typescript": "^7.0.2"
   }
 }
