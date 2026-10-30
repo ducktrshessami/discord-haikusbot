@@ -1,10 +1,10 @@
+import { channelMention } from "@discordjs/formatters";
 import {
     ApplicationCommandOptionType,
     ChatInputCommandInteraction,
     InteractionContextType,
     PermissionFlagsBits,
-    RESTPostAPIChatInputApplicationCommandsJSONBody,
-    channelMention
+    RESTPostAPIChatInputApplicationCommandsJSONBody
 } from "discord.js";
 import { IgnorableChannelTypes, unignoreChannel } from "../ignore.js";
 

@@ -1,3 +1,4 @@
+import { italic } from "@discordjs/formatters";
 import {
     ChannelType,
     Client,
@@ -9,8 +10,7 @@ import {
     Options,
     PermissionFlagsBits,
     PresenceData,
-    User,
-    italic
+    User
 } from "discord.js";
 import {
     DISCORD_LIMITED_CACHE_MAX,

@@ -1,6 +1,7 @@
 import {
-    ActionRowBuilder,
+    ButtonStyle,
     ChatInputCommandInteraction,
+    ComponentType,
     InteractionContextType,
     OAuth2Scopes,
     PermissionFlagsBits,
@@ -18,14 +19,18 @@ export const data: RESTPostAPIChatInputApplicationCommandsJSONBody = {
 };
 
 export async function callback(interaction: ChatInputCommandInteraction): Promise<void> {
-    const row = new ActionRowBuilder()
-        .addLinkButtonComponents(button =>
-            button
-                .setLabel("Invite")
-                .setURL(interaction.client.generateInvite({
+    await interaction.reply({
+        components: [{
+            type: ComponentType.ActionRow,
+            components: [{
+                type: ComponentType.Button,
+                style: ButtonStyle.Link,
+                label: "Invite",
+                url: interaction.client.generateInvite({
                     scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
                     permissions: PermissionFlagsBits.ViewChannel | PermissionFlagsBits.SendMessages
-                }))
-        );
-    await interaction.reply({ components: [row] });
+                })
+            }]
+        }]
+    });
 }
